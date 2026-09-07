@@ -48,6 +48,11 @@
   .blok { background: #f4f4f4; border-radius: 14px; padding: 24px 26px; margin: 0 0 24px; }
   .blok__stitek { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: #8f8f8f; margin-bottom: 10px; font-weight: 600; }
   .blok p:last-child { margin-bottom: 0; }
+  article.body a { color: #000; text-underline-offset: 3px; }
+  .toc a { color: #a8a8a8; transition: color 0.25s ease; }
+  .toc a.active { color: #000; }
+  @keyframes markFloat { 0%, 100% { transform: translateY(-54%) rotate(-2.5deg); } 50% { transform: translateY(-58%) rotate(2.5deg); } }
+  .foot-water .chrome { animation: markFloat 9s ease-in-out infinite; }
   .figure { background: #000; color: #fff; border-radius: 20px; padding: 44px 48px; margin: 40px 0; }
   .figure .num { font-size: 72px; font-weight: 600; letter-spacing: -0.03em; line-height: 1; }
   .figure .cap { margin-top: 12px; font-size: 16px; color: #bdbdbd; line-height: 1.5; }
@@ -148,7 +153,7 @@
 <section class="hero">
   <div class="wrap">
     <div class="crumbs">Články &nbsp;/&nbsp; <b>Kapitál pro firmy</b></div>
-    <div class="badges"><span class="badge">Kapitál pro firmy</span><span class="badge">15. srpna 2026</span><span class="badge">9 min čtení</span></div>
+    <div class="badges"><span class="badge">Kapitál pro firmy</span><span class="badge">15. srpna 2026</span></div>
     <h1>Jak firma získá kapitál v roce 2026: sedm cest a kdy která dává smysl</h1>
     <p class="perex">Sedm cest k firemnímu kapitálu od bankovního úvěru po dotace: pro jakou firmu se hodí, jak dlouho trvá a co za ni firma zaplatí.</p>
   </div>
@@ -209,22 +214,17 @@
       <span class="rel-cat">Kapitál pro firmy</span>
       <span class="rel-title">Emise dluhopisů krok za krokem: od rozhodnutí po první výplatu kuponu</span>
       <span class="rel-desc">Jedenáct kroků emise dluhopisů od interního rozhodnutí po splatnost, s tím, kdo co rozhoduje a proč je volba distribuce klíčová pro riziko…</span>
-      <span class="rel-foot"><span>15. srpna 2026 · 7 min čtení</span><span class="rel-more">Číst článek</span></span>
+      <span class="rel-foot"><span>15. srpna 2026</span><span class="rel-more">Číst článek</span></span>
     </a><a class="rel-card" href="#">
       <span class="rel-cat">Kapitál pro firmy</span>
       <span class="rel-title">Emisní dokument pro emise 1 až 5 milionů eur: co se změnilo v červnu 2026</span>
       <span class="rel-desc">Tři pásma dokumentace pro veřejnou nabídku dluhopisů od června 2026, co obsahuje nový emisní dokument a co změna znamená pro emitenta i…</span>
-      <span class="rel-foot"><span>15. srpna 2026 · 7 min čtení</span><span class="rel-more">Číst článek</span></span>
+      <span class="rel-foot"><span>15. srpna 2026</span><span class="rel-more">Číst článek</span></span>
     </a><a class="rel-card" href="#">
       <span class="rel-cat">Kapitál pro firmy</span>
       <span class="rel-title">Dluhopis, nebo bankovní úvěr? Rozhodovací tabulka podle šesti parametrů</span>
       <span class="rel-desc">Úvěr vyřídíte za týdny a náklady rostou úměrně jeho výši. Dluhopis unese vyšší objem, delší splatnost a volnost od omezení jedné banky.</span>
-      <span class="rel-foot"><span>15. srpna 2026 · 7 min čtení</span><span class="rel-more">Číst článek</span></span>
-    </a><a class="rel-card" href="#">
-      <span class="rel-cat">Kapitál pro firmy</span>
-      <span class="rel-title">Kdy má firma jít pro dluh a kdy pro podíl</span>
-      <span class="rel-desc">Dluh se platí bez ohledu na výsledek, majitel si nechá kontrolu. Podíl se neplatí, ale majitel dává kus budoucí hodnoty. Čtyři kritéria…</span>
-      <span class="rel-foot"><span>15. srpna 2026 · 7 min čtení</span><span class="rel-more">Číst článek</span></span>
+      <span class="rel-foot"><span>15. srpna 2026</span><span class="rel-more">Číst článek</span></span>
     </a></div>
 </section>
 <footer>
@@ -252,5 +252,23 @@
   </div>
   <div class="float-home">oneflow.cz</div>
 </footer>
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll(".toc a"));
+  if (!links.length || !("IntersectionObserver" in window)) return;
+  var byId = {};
+  links.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
+  function activate(id) {
+    links.forEach(function (a) { a.classList.toggle("active", a === byId[id]); });
+  }
+  var current = null;
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { current = e.target.id; activate(current); }
+    });
+  }, { rootMargin: "-20% 0px -70% 0px" });
+  document.querySelectorAll("article.body h2[id], article.body h3[id]").forEach(function (h) { obs.observe(h); });
+})();
+</script>
 </body>
 </html>
